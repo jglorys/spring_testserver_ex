@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+ <mapper namespace="com.example.lesson03.dao.ReviewDAO">
+ 	<select id="selectReviewById" parameterType="int" resultType="com.example.lesson03.model.Review"> 
+ 			<!-- //id는 다오의 메소드명, parameterType은 다오의 메소드의 파라미터-->
+ 			<!-- select이면 resultType있어야함 => xml파일의 위치 -->					
+ 			SELECT <!-- 별표시말고 이제 다 입력해야함!! 나중에 컬럼 변경할때, db에서는 바뀌었는데, *로 가져오면 없어진것을 모르고 다 가지고 옴 -->
+ 				`id`
+				, `menu`
+				, `userName`
+				, `point`
+				, `review`
+				, `createdAt`
+				, `updatedAt`
+ 			FROM
+ 				`new_review`
+ 			WHERE
+ 				`id` = #{id} <!-- 다오에 넘어온 파라미터랑 똑같은거 -->
+ 	</select>
+ 	
+ 	<insert id="insertReview" parameterType="com.example.lesson03.model.Review">
+ 		INSERT INTO `new_review`
+ 		(
+			`storeId`
+			 ,`menu`
+			 ,`userName`
+			 ,`point`
+			 ,`review`
+			 ,`createdAt`
+			 ,`updatedAt`
+ 		)
+ 		VALUES
+ 		(
+ 			#{storeId} <!-- getter&setter 있어서 얘네가 작동함 -->
+ 			, #{menu}
+ 			, #{userName}
+ 			, #{point}
+ 			, #{review}
+ 			, NOW()
+ 			, NOW()
+ 		)
+ 	</insert>
+ 	
+ 	<insert id="insertReviewAsField" parameterType="map">
+ 		INSERT INTO `new_review`
+ 		(
+			`storeId`
+			 ,`menu`
+			 ,`userName`
+			 ,`point`
+			 ,`review`
+			 ,`createdAt`
+			 ,`updatedAt`
+ 		)
+ 		VALUES
+ 		(
+ 			#{storeId} <!-- getter&setter 있어서 얘네가 작동함 -->
+ 			, #{menu}
+ 			, #{userName}
+ 			, #{point}
+ 			, #{review}
+ 			, NOW()
+ 			, NOW()
+ 		)
+ 	</insert>
+ 	
+ 	<update id="updateReview" parameterType="map">
+ 		UPDATE
+ 			`new_review`
+ 		SET
+ 			`review` = #{review}
+ 			, `updatedAt` = NOW()
+ 		WHERE 
+ 			`id` = #{id} <!-- id가 parameter로 받은 그 id일때! --> 	
+ 	</update>
+ 	
+ 	<delete id="deleteReviewById" parameterType="int">
+ 		DELETE
+ 		FROM
+ 			`new_review`
+ 		WHERE
+ 			`id` = #{id}
+ 	</delete>
+ 
+ </mapper>
